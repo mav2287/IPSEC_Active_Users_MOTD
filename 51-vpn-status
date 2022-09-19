@@ -1,0 +1,18 @@
+#!/bin/sh
+#
+# 51-vpn-status - create the header of the MOTD
+# By James Blain
+
+# Get list of connected users
+VPN_users_connected=$(ipsec whack --trafficstatus | grep -oP "(?<=id\=\'CN\=).*(?=\, O)");
+
+# Count Connected users
+[ -z "$VPN_users_connected" ] && VPN_users_connected_count=0 || VPN_users_connected_count=$(echo "${VPN_users_connected}" | wc -l)
+
+#output connected user count
+echo "  VPN Connected Users: ${VPN_users_connected_count}";
+
+#output connected usernames
+for VPN_user_connected in $VPN_users_connected; do
+    echo "  VPN User Connected: ${VPN_user_connected}";
+done;
